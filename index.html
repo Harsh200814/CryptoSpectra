@@ -9,10 +9,38 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-white dark:bg-[#0B0E11] text-[#1E2329] dark:text-[#EAECEF] min-h-screen font-sans">
-    <div id="app">
-        <h1>Loading CryptoSpectra...</h1>
-    </div>
+<body class="bg-white dark:bg-[#0B0E11] text-[#1E2329] dark:text-[#EAECEF] min-h-screen transition-colors duration-500 font-sans selection:bg-primary/30">
+
+    <nav class="sticky top-0 z-50 glass border-b border-slate-200 dark:border-slate-800 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3 group cursor-pointer transition-all duration-300">
+                <div class="w-14 h-14 rounded-2xl shadow-sm border border-slate-300 dark:border-slate-700 p-[2px] bg-gradient-to-br from-white to-slate-100 dark:from-[#1E2329] dark:to-[#0B0E11] relative">
+                    <img src="images/logo.png" alt="Logo" class="w-full h-full object-cover rounded-[14px]">
+                </div>
+                <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white font-orbitron">CryptoSpectra</h1>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#/" class="text-sm font-bold nav-link active transition-colors" id="nav-dashboard">Dashboard</a>
+                <a href="#/compare" class="text-sm font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors nav-link" id="nav-compare">Compare</a>
+                <a href="#/favorites" class="text-sm font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors nav-link" id="nav-favorites">Favorites</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button id="theme-toggle" class="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+                    <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                    <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="view-container" class="max-w-7xl mx-auto px-6 py-10">
+        <div id="app">
+            <h1>Loading CryptoSpectra...</h1>
+        </div>
+    </main>
 </body>
 </html>
