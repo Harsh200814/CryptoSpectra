@@ -1,7 +1,10 @@
+let coinsList = [];
+let filteredList = [];
 let globalStats = null;
 let currentTheme = localStorage.getItem('crypto_theme') || 'dark';
 
 const apiBaseUrl = 'https://api.coingecko.com/api/v3';
+const marketsUrl = `${apiBaseUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=24h`;
 const globalUrl = `${apiBaseUrl}/global`;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -17,6 +20,9 @@ async function startApp() {
     
     await getGlobalData();
     displayGlobalStats();
+
+    await getCoinsData();
+    console.log('Markets data loaded');
 }
 
 async function getGlobalData() {
@@ -29,17 +35,26 @@ async function getGlobalData() {
     }
 }
 
+async function getCoinsData() {
+    try {
+        const res = await fetch(marketsUrl);
+        const data = await res.json();
+        coinsList = data;
+        filteredList = [...data];
+    } catch (err) {
+        console.log('Error fetching coins data:', err);
+    }
+}
+
 function displayGlobalStats() {
     const statsGrid = document.getElementById('global-stats-grid');
     if (!globalStats || !statsGrid) return;
-
     const statsArray = [
         { title: 'Global Market Cap', val: `$${(globalStats.total_market_cap.usd / 1e12).toFixed(2)}T`, icon: 'trending-up', color: 'text-secondary' },
         { title: '24h Volume', val: `$${(globalStats.total_volume.usd / 1e9).toFixed(2)}B`, icon: 'activity', color: 'text-secondary' },
         { title: 'BTC Dominance', val: `${globalStats.market_cap_percentage.btc.toFixed(1)}%`, icon: 'percent', color: 'text-warning' },
         { title: 'Active Coins', val: (globalStats.active_cryptocurrencies || 0).toLocaleString(), icon: 'layers', color: 'text-slate-400' }
     ];
-
     let htmlContent = '';
     for (let i = 0; i < statsArray.length; i++) {
         let s = statsArray[i];
