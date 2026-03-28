@@ -3,6 +3,7 @@ let filteredList = [];
 let globalStats = null;
 let currentTheme = localStorage.getItem('crypto_theme') || 'dark';
 let searchText = '';
+let selectedFilter = 'all';
 
 const apiBaseUrl = 'https://api.coingecko.com/api/v3';
 const marketsUrl = `${apiBaseUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=24h`;
@@ -95,12 +96,41 @@ function displayCoinsTable() {
 }
 
 function runFilters() {
-    filteredList = coinsList.filter(function (item) {
-        const nameMatch = item.name.toLowerCase().includes(searchText);
-        const symbolMatch = item.symbol.toLowerCase().includes(searchText);
-        return nameMatch || symbolMatch;
-    });
+    let list = [...coinsList];
+
+    if (selectedFilter === 'gainers') {
+        list = list.filter(c => (c.price_change_percentage_24h || 0) > 0);
+        list.sort((a, b) => b.price_change_percentage_24h - a.price_change_percentage_24h);
+    } else if (selectedFilter === 'losers') {
+        list = list.filter(c => (c.price_change_percentage_24h || 0) < 0);
+        list.sort((a, b) => a.price_change_percentage_24h - b.price_change_percentage_24h);
+    }
+
+    if (searchText) {
+        list = list.filter(function (item) {
+            const nameMatch = item.name.toLowerCase().includes(searchText);
+            const symbolMatch = item.symbol.toLowerCase().includes(searchText);
+            return nameMatch || symbolMatch;
+        });
+    }
+
+    filteredList = list;
     displayCoinsTable();
+}
+
+function updateFilterButtons() {
+    const filters = ['all', 'gainers', 'losers'];
+    filters.forEach(f => {
+        const btn = document.getElementById(`filter-${f}`);
+        if (!btn) return;
+        if (selectedFilter === f) {
+            btn.classList.add('bg-slate-900', 'dark:bg-white', 'text-white', 'dark:text-slate-900');
+            btn.classList.remove('bg-white', 'dark:bg-[#1E2329]', 'text-slate-500');
+        } else {
+            btn.classList.remove('bg-slate-900', 'dark:bg-white', 'text-white', 'dark:text-slate-900');
+            btn.classList.add('bg-white', 'dark:bg-[#1E2329]', 'text-slate-500');
+        }
+    });
 }
 
 function addEventListeners() {
@@ -111,6 +141,18 @@ function addEventListeners() {
             runFilters();
         });
     }
+
+    const filters = ['all', 'gainers', 'losers'];
+    filters.forEach(f => {
+        const btn = document.getElementById(`filter-${f}`);
+        if (btn) {
+            btn.addEventListener('click', () => {
+                selectedFilter = f;
+                updateFilterButtons();
+                runFilters();
+            });
+        }
+    });
 }
 
 function getSparklineSvg(prices, up) {
