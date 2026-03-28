@@ -103,8 +103,22 @@
                     </table>
                 </div>
             </div>
+
+            <div class="flex justify-between items-center text-sm font-medium text-slate-500">
+                <p id="page-info">Showing top 100 assets</p>
+                <div class="flex gap-2">
+                    <button id="prev-page" class="p-2 rounded-xl bg-slate-200 dark:bg-[#1E2329] dark:text-[#EAECEF] hover:bg-slate-300 dark:hover:bg-[#2B3139] disabled:opacity-30 transition-all"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                    <button id="next-page" class="p-2 rounded-xl bg-slate-200 dark:bg-[#1E2329] dark:text-[#EAECEF] hover:bg-slate-300 dark:hover:bg-[#2B3139] disabled:opacity-30 transition-all"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                </div>
+            </div>
         </div>
     </main>
+
+    <footer class="max-w-7xl mx-auto px-6 py-12 border-t border-slate-200 dark:border-[#1E2329] mt-20 opacity-60">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-sm font-medium">&copy; 2026 CryptoSpectra Ecosystem. All rights reserved.</p>
+        </div>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>

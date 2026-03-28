@@ -4,9 +4,9 @@ let globalStats = null;
 let currentTheme = localStorage.getItem('crypto_theme') || 'dark';
 let searchText = '';
 let selectedFilter = 'all';
+let currentPage = 1;
 
 const apiBaseUrl = 'https://api.coingecko.com/api/v3';
-const marketsUrl = `${apiBaseUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=24h`;
 const globalUrl = `${apiBaseUrl}/global`;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -24,8 +24,7 @@ async function startApp() {
     await getGlobalData();
     displayGlobalStats();
 
-    await getCoinsData();
-    displayCoinsTable();
+    await getCoinsByPage(1);
 }
 
 async function getGlobalData() {
@@ -38,12 +37,15 @@ async function getGlobalData() {
     }
 }
 
-async function getCoinsData() {
+async function getCoinsByPage(page) {
     try {
-        const res = await fetch(marketsUrl);
+        const url = `${apiBaseUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=true&price_change_percentage=24h`;
+        const res = await fetch(url);
         const data = await res.json();
         coinsList = data;
         filteredList = [...data];
+        displayCoinsTable();
+        updatePaginationUI();
     } catch (err) {
         console.log('Error:', err);
     }
@@ -78,7 +80,7 @@ function displayCoinsTable() {
                         ${Math.abs(percentChange).toFixed(2)}%
                     </span>
                 </td>
-                <td class="p-6">
+                <td class="p-6 text-center">
                     <div class="w-24 h-10 mx-auto">${getSparklineSvg(coin.sparkline_in_7d.price, up)}</div>
                 </td>
                 <td class="p-6">
@@ -97,7 +99,6 @@ function displayCoinsTable() {
 
 function runFilters() {
     let list = [...coinsList];
-
     if (selectedFilter === 'gainers') {
         list = list.filter(c => (c.price_change_percentage_24h || 0) > 0);
         list.sort((a, b) => b.price_change_percentage_24h - a.price_change_percentage_24h);
@@ -105,54 +106,57 @@ function runFilters() {
         list = list.filter(c => (c.price_change_percentage_24h || 0) < 0);
         list.sort((a, b) => a.price_change_percentage_24h - b.price_change_percentage_24h);
     }
-
     if (searchText) {
-        list = list.filter(function (item) {
-            const nameMatch = item.name.toLowerCase().includes(searchText);
-            const symbolMatch = item.symbol.toLowerCase().includes(searchText);
-            return nameMatch || symbolMatch;
-        });
+        list = list.filter(item => (item.name.toLowerCase().includes(searchText) || item.symbol.toLowerCase().includes(searchText)));
     }
-
     filteredList = list;
     displayCoinsTable();
 }
 
-function updateFilterButtons() {
-    const filters = ['all', 'gainers', 'losers'];
-    filters.forEach(f => {
-        const btn = document.getElementById(`filter-${f}`);
-        if (!btn) return;
-        if (selectedFilter === f) {
-            btn.classList.add('bg-slate-900', 'dark:bg-white', 'text-white', 'dark:text-slate-900');
-            btn.classList.remove('bg-white', 'dark:bg-[#1E2329]', 'text-slate-500');
-        } else {
-            btn.classList.remove('bg-slate-900', 'dark:bg-white', 'text-white', 'dark:text-slate-900');
-            btn.classList.add('bg-white', 'dark:bg-[#1E2329]', 'text-slate-500');
-        }
-    });
+function updatePaginationUI() {
+    const info = document.getElementById('page-info');
+    if (info) info.innerText = `Showing page ${currentPage} of market data`;
+    const prevBtn = document.getElementById('prev-page');
+    const nextBtn = document.getElementById('next-page');
+    if (prevBtn) prevBtn.disabled = (currentPage === 1);
 }
 
 function addEventListeners() {
     const searchInput = document.getElementById('coin-search');
     if (searchInput) {
-        searchInput.addEventListener('input', function (e) {
+        searchInput.addEventListener('input', e => {
             searchText = e.target.value.toLowerCase();
             runFilters();
         });
     }
-
-    const filters = ['all', 'gainers', 'losers'];
-    filters.forEach(f => {
+    ['all', 'gainers', 'losers'].forEach(f => {
         const btn = document.getElementById(`filter-${f}`);
         if (btn) {
             btn.addEventListener('click', () => {
                 selectedFilter = f;
-                updateFilterButtons();
+                document.querySelectorAll('[id^="filter-"]').forEach(el => el.classList.remove('bg-slate-900', 'dark:bg-white', 'text-white', 'dark:text-slate-900'));
+                btn.classList.add('bg-slate-900', 'dark:bg-white', 'text-white', 'dark:text-slate-900');
                 runFilters();
             });
         }
     });
+
+    const prevBtn = document.getElementById('prev-page');
+    const nextBtn = document.getElementById('next-page');
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                getCoinsByPage(currentPage);
+            }
+        });
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            currentPage++;
+            getCoinsByPage(currentPage);
+        });
+    }
 }
 
 function getSparklineSvg(prices, up) {
@@ -187,14 +191,7 @@ function displayGlobalStats() {
     let htmlContent = '';
     for (let i = 0; i < statsArray.length; i++) {
         let s = statsArray[i];
-        htmlContent += `
-        <div class="glass p-6 rounded-[32px] border border-slate-200/50 dark:border-slate-800/50 hover:scale-[1.03] transition-all group">
-            <div class="flex justify-between items-start mb-4">
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-wider">${s.title}</p>
-                <div class="p-2.5 rounded-2xl bg-slate-100 dark:bg-slate-800 ${s.color} transition-all shadow-sm"><i data-lucide="${s.icon}" class="w-5 h-5"></i></div>
-            </div>
-            <h3 class="text-3xl font-black text-slate-900 dark:text-white font-mono">${s.val}</h3>
-        </div>`;
+        htmlContent += `<div class="glass p-6 rounded-[32px] border group"><div class="flex justify-between items-start mb-4"><p class="text-slate-500 text-sm font-bold uppercase">${s.title}</p><div class="p-2.5 rounded-2xl bg-slate-100 ${s.color}"><i data-lucide="${s.icon}" class="w-5 h-5"></i></div></div><h3 class="text-3xl font-black font-mono">${s.val}</h3></div>`;
     }
     statsGrid.innerHTML = htmlContent;
     lucide.createIcons();
