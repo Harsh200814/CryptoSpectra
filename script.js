@@ -80,6 +80,7 @@ async function getCoinsByPage(page) {
         filteredList = [...data];
         displayCoinsTable();
         updatePaginationUI();
+        if (window.location.hash === '#/favorites') renderFavorites();
     } catch (err) {
         console.log('Error:', err);
     }
@@ -106,9 +107,9 @@ function displayCoinsTable() {
                         </div>
                     </div>
                 </td>
-                <td class="p-6 font-mono font-bold">$${getPriceString(coin.current_price)}</td>
-                <td class="p-6 text-right">
-                    <span class="inline-flex items-center font-black ${up ? 'text-secondary' : 'text-danger'} font-mono">
+                <td class="p-6 font-mono font-bold font-mono">$${getPriceString(coin.current_price)}</td>
+                <td class="p-6 text-right font-mono font-black ${up ? 'text-secondary' : 'text-danger'}">
+                    <span class="inline-flex items-center">
                         <i data-lucide="${up ? 'chevron-up' : 'chevron-down'}" class="w-4 h-4 mr-1"></i>
                         ${Math.abs(percentChange).toFixed(2)}%
                     </span>
@@ -121,7 +122,7 @@ function displayCoinsTable() {
                         <button onclick="handleCompareClick('${coin.id}')" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-primary transition-all shadow-sm" title="Compare">
                             <i data-lucide="repeat" class="w-5 h-5"></i>
                         </button>
-                        <button onclick="toggleFavorite('${coin.id}')" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 ${isFav ? 'text-yellow-500 fill-yellow-500' : 'text-slate-400'} hover:scale-110 transition-all shadow-sm">
+                        <button onclick="toggleFavorite('${coin.id}')" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 ${isFav ? 'text-yellow-500' : 'text-slate-400'} hover:scale-110 transition-all shadow-sm">
                             <i data-lucide="star" class="w-5 h-5 ${isFav ? 'fill-yellow-500' : ''}"></i>
                         </button>
                     </div>
@@ -147,7 +148,15 @@ function renderFavorites() {
     const grid = document.getElementById('favorites-grid');
     if (!grid) return;
     if (favList.length === 0) {
-        grid.innerHTML = `<div class="col-span-full py-20 text-center text-slate-500 font-medium">No favorites yet. Go to Dashboard and click the star icon!</div>`;
+        grid.innerHTML = `
+            <div class="col-span-full py-24 text-center glass rounded-[40px] border-2 border-dashed border-slate-200 dark:border-slate-800">
+                <div class="bg-slate-100 dark:bg-slate-800 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="star" class="w-10 h-10 text-slate-300"></i>
+                </div>
+                <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-2">No Favorites Yet</h3>
+                <p class="text-slate-500 max-w-sm mx-auto px-6">Go to the Dashboard and click the star icon on any coin to build your personalized watchlist.</p>
+            </div>`;
+        lucide.createIcons();
         return;
     }
     const favCoins = coinsList.filter(c => favList.includes(c.id));
@@ -159,10 +168,10 @@ function renderFavorites() {
                 <button onclick="toggleFavorite('${coin.id}')" class="absolute top-4 right-4 text-yellow-500 hover:scale-125 transition-all"><i data-lucide="star" class="w-6 h-6 fill-yellow-500"></i></button>
                 <div class="flex items-center gap-4 mb-6">
                     <img src="${coin.image}" class="w-12 h-12 rounded-2xl" alt="${coin.name}">
-                    <div><h3 class="font-black text-slate-900 dark:text-white">${coin.name}</h3><p class="text-xs text-slate-500 uppercase font-bold font-mono">${coin.symbol}</p></div>
+                    <div><h3 class="font-black text-slate-900 dark:text-white">${coin.name}</h3><p class="text-[10px] text-slate-500 uppercase font-black tracking-widest font-mono">${coin.symbol}</p></div>
                 </div>
                 <div class="space-y-4">
-                    <div><p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-1">Price</p><p class="text-2xl font-black text-slate-900 dark:text-white font-mono">$${getPriceString(coin.current_price)}</p></div>
+                    <div><p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-1">Current Price</p><p class="text-2xl font-black text-slate-900 dark:text-white font-mono">$${getPriceString(coin.current_price)}</p></div>
                     <div class="flex justify-between items-end"><div class="font-black ${up ? 'text-secondary' : 'text-danger'} font-mono">${coin.price_change_percentage_24h.toFixed(2)}%</div><div class="w-20 h-8">${getSparklineSvg(coin.sparkline_in_7d.price, up)}</div></div>
                 </div>
             </div>`;
@@ -199,15 +208,15 @@ function renderComparison() {
                             <h3 class="text-4xl font-black text-slate-900 dark:text-white font-orbitron">${coin.name}</h3>
                             <div class="flex items-center gap-2 mt-1">
                                 <span class="text-sm font-black text-slate-400 uppercase tracking-widest">${coin.symbol}</span>
-                                <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg text-xs font-bold">Rank #${coin.market_cap_rank}</span>
+                                <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg text-xs font-bold font-mono">Rank #${coin.market_cap_rank}</span>
                             </div>
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="glass p-6 rounded-3xl border"><p class="text-xs font-black text-slate-400 uppercase mb-2">Price</p><p class="text-2xl font-black text-slate-900 dark:text-white font-mono">$${getPriceString(coin.current_price)}</p></div>
-                        <div class="glass p-6 rounded-3xl border"><p class="text-xs font-black text-slate-400 uppercase mb-2">24h Change</p><p class="text-2xl font-black ${up ? 'text-secondary' : 'text-danger'} font-mono">${coin.price_change_percentage_24h.toFixed(2)}%</p></div>
+                        <div class="glass p-6 rounded-3xl border"><p class="text-[10px] font-black text-slate-400 uppercase mb-2">Price</p><p class="text-2xl font-black text-slate-900 dark:text-white font-mono">$${getPriceString(coin.current_price)}</p></div>
+                        <div class="glass p-6 rounded-3xl border"><p class="text-[10px] font-black text-slate-400 uppercase mb-2">24h Change</p><p class="text-2xl font-black ${up ? 'text-secondary' : 'text-danger'} font-mono">${coin.price_change_percentage_24h.toFixed(2)}%</p></div>
                     </div>
-                    <div class="glass p-8 rounded-[40px] border"><p class="text-xs font-black text-slate-400 uppercase mb-4">Market Cap</p><p class="text-3xl font-black text-slate-900 dark:text-white mb-1 font-mono">$${(coin.market_cap / 1e9).toFixed(2)}B</p></div>
+                    <div class="glass p-8 rounded-[40px] border"><p class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Market Cap (USD)</p><p class="text-3xl font-black text-slate-900 dark:text-white mb-1 font-mono">$${(coin.market_cap / 1e9).toFixed(2)}B</p></div>
                 </div>`;
             slot.classList.remove('border-dashed');
             slot.classList.add('border-solid');
@@ -232,7 +241,7 @@ function removeCompare(idx) {
 
 function updatePaginationUI() {
     const info = document.getElementById('page-info');
-    if (info) info.innerText = `Page ${currentPage}`;
+    if (info) info.innerText = `Showing Page ${currentPage}`;
     const prevBtn = document.getElementById('prev-page');
     if (prevBtn) prevBtn.disabled = (currentPage === 1);
 }
@@ -268,7 +277,7 @@ function getSparklineSvg(prices, up) {
         const y = 40 - ((prices[i] - minVal) / valRange) * 40;
         pathPoints += `${x},${y} `;
     }
-    return `<svg viewBox="0 0 100 40"><polyline fill="none" stroke="${up ? '#0ECB81' : '#F6465D'}" stroke-width="3" points="${pathPoints}" /></svg>`;
+    return `<svg viewBox="0 0 100 40" class="overflow-visible"><polyline fill="none" stroke="${up ? '#0ECB81' : '#F6465D'}" stroke-width="3" stroke-linecap="round" points="${pathPoints}" /></svg>`;
 }
 
 function getPriceString(p) {
@@ -288,7 +297,7 @@ function displayGlobalStats() {
     let htmlContent = '';
     for (let i = 0; i < statsArray.length; i++) {
         let s = statsArray[i];
-        htmlContent += `<div class="glass p-6 rounded-[32px] border group"><div class="flex justify-between items-start mb-4"><p class="text-slate-500 font-bold uppercase">${s.title}</p><i data-lucide="${s.icon}" class="${s.color} w-5 h-5"></i></div><h3 class="text-3xl font-black font-mono">${s.val}</h3></div>`;
+        htmlContent += `<div class="glass p-6 rounded-[32px] border group transition-all hover:scale-[1.03]"><div class="flex justify-between items-start mb-4"><p class="text-slate-500 font-bold uppercase text-[10px] tracking-widest">${s.title}</p><div class="p-2 bg-slate-100 dark:bg-slate-800 rounded-xl"><i data-lucide="${s.icon}" class="${s.color} w-5 h-5"></i></div></div><h3 class="text-3xl font-black font-mono">${s.val}</h3></div>`;
     }
     statsGrid.innerHTML = htmlContent;
     lucide.createIcons();
