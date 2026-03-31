@@ -35,6 +35,17 @@ async function startApp() {
     getCoinsByPage(1);
 }
 
+function toggleTheme() {
+    if (currentTheme === 'dark') {
+        currentTheme = 'light';
+        document.documentElement.classList.remove('dark');
+    } else {
+        currentTheme = 'dark';
+        document.documentElement.classList.add('dark');
+    }
+    localStorage.setItem('crypto_theme', currentTheme);
+}
+
 function switchView(hash) {
     const views = ['dashboard', 'compare', 'favorites'];
     views.forEach(v => {
@@ -107,7 +118,7 @@ function displayCoinsTable() {
                         </div>
                     </div>
                 </td>
-                <td class="p-6 font-mono font-bold font-mono">$${getPriceString(coin.current_price)}</td>
+                <td class="p-6 font-mono font-bold">$${getPriceString(coin.current_price)}</td>
                 <td class="p-6 text-right font-mono font-black ${up ? 'text-secondary' : 'text-danger'}">
                     <span class="inline-flex items-center">
                         <i data-lucide="${up ? 'chevron-up' : 'chevron-down'}" class="w-4 h-4 mr-1"></i>
@@ -258,6 +269,9 @@ function addEventListeners() {
     const nextBtn = document.getElementById('next-page');
     if (prevBtn) prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; getCoinsByPage(currentPage); } });
     if (nextBtn) nextBtn.addEventListener('click', () => { currentPage++; getCoinsByPage(currentPage); });
+
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
 }
 
 function runFilters() {
