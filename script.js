@@ -107,7 +107,7 @@ function displayCoinsTable() {
         const percentChange = coin.price_change_percentage_24h || 0;
         const up = percentChange >= 0;
         rowsHtml += `
-            <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-colors group">
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/10 transition-all group">
                 <td class="p-6 text-sm font-bold text-slate-400">#${coin.market_cap_rank}</td>
                 <td class="p-6">
                     <div class="flex items-center gap-4">
@@ -119,7 +119,7 @@ function displayCoinsTable() {
                     </div>
                 </td>
                 <td class="p-6 font-mono font-bold">$${getPriceString(coin.current_price)}</td>
-                <td class="p-6 text-right font-mono font-black ${up ? 'text-secondary' : 'text-danger'}">
+                <td class="p-6 text-right font-mono font-black ${up ? 'text-[#0ECB81]' : 'text-[#F6465D]'}">
                     <span class="inline-flex items-center">
                         <i data-lucide="${up ? 'chevron-up' : 'chevron-down'}" class="w-4 h-4 mr-1"></i>
                         ${Math.abs(percentChange).toFixed(2)}%
@@ -183,7 +183,7 @@ function renderFavorites() {
                 </div>
                 <div class="space-y-4">
                     <div><p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-1">Current Price</p><p class="text-2xl font-black text-slate-900 dark:text-white font-mono">$${getPriceString(coin.current_price)}</p></div>
-                    <div class="flex justify-between items-end"><div class="font-black ${up ? 'text-secondary' : 'text-danger'} font-mono">${coin.price_change_percentage_24h.toFixed(2)}%</div><div class="w-20 h-8">${getSparklineSvg(coin.sparkline_in_7d.price, up)}</div></div>
+                    <div class="flex justify-between items-end"><div class="font-black ${up ? 'text-[#0ECB81]' : 'text-[#F6465D]'} font-mono">${coin.price_change_percentage_24h.toFixed(2)}%</div><div class="w-20 h-8">${getSparklineSvg(coin.sparkline_in_7d.price, up)}</div></div>
                 </div>
             </div>`;
     });
@@ -225,9 +225,8 @@ function renderComparison() {
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="glass p-6 rounded-3xl border"><p class="text-[10px] font-black text-slate-400 uppercase mb-2">Price</p><p class="text-2xl font-black text-slate-900 dark:text-white font-mono">$${getPriceString(coin.current_price)}</p></div>
-                        <div class="glass p-6 rounded-3xl border"><p class="text-[10px] font-black text-slate-400 uppercase mb-2">24h Change</p><p class="text-2xl font-black ${up ? 'text-secondary' : 'text-danger'} font-mono">${coin.price_change_percentage_24h.toFixed(2)}%</p></div>
+                        <div class="glass p-6 rounded-3xl border"><p class="text-[10px] font-black text-slate-400 uppercase mb-2">24h Change</p><p class="text-2xl font-black ${up ? 'text-[#0ECB81]' : 'text-[#F6465D]'} font-mono">${coin.price_change_percentage_24h.toFixed(2)}%</p></div>
                     </div>
-                    <div class="glass p-8 rounded-[40px] border"><p class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Market Cap (USD)</p><p class="text-3xl font-black text-slate-900 dark:text-white mb-1 font-mono">$${(coin.market_cap / 1e9).toFixed(2)}B</p></div>
                 </div>`;
             slot.classList.remove('border-dashed');
             slot.classList.add('border-solid');
@@ -269,9 +268,8 @@ function addEventListeners() {
     const nextBtn = document.getElementById('next-page');
     if (prevBtn) prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; getCoinsByPage(currentPage); } });
     if (nextBtn) nextBtn.addEventListener('click', () => { currentPage++; getCoinsByPage(currentPage); });
-
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
 }
 
 function runFilters() {
@@ -303,8 +301,8 @@ function displayGlobalStats() {
     const statsGrid = document.getElementById('global-stats-grid');
     if (!globalStats || !statsGrid) return;
     const statsArray = [
-        { title: 'Global Cap', val: `$${(globalStats.total_market_cap.usd / 1e12).toFixed(2)}T`, icon: 'trending-up', color: 'text-secondary' },
-        { title: 'Volume', val: `$${(globalStats.total_volume.usd / 1e9).toFixed(2)}B`, icon: 'activity', color: 'text-secondary' },
+        { title: 'Global Cap', val: `$${(globalStats.total_market_cap.usd / 1e12).toFixed(2)}T`, icon: 'trending-up', color: 'text-[#0ECB81]' },
+        { title: 'Volume', val: `$${(globalStats.total_volume.usd / 1e9).toFixed(2)}B`, icon: 'activity', color: 'text-[#0ECB81]' },
         { title: 'BTC Dom', val: `${globalStats.market_cap_percentage.btc.toFixed(1)}%`, icon: 'percent', color: 'text-warning' },
         { title: 'Coins', val: (globalStats.active_cryptocurrencies || 0).toLocaleString(), icon: 'layers', color: 'text-slate-400' }
     ];
