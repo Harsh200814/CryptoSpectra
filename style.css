@@ -1,66 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
-
 :root {
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.3);
-}
-
-.dark {
-    --glass-bg: rgba(13, 17, 23, 0.7);
-    --glass-border: rgba(48, 54, 61, 0.5);
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-}
-
-.font-orbitron {
-    font-family: 'Orbitron', sans-serif;
+    --glass-white: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 .glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: var(--glass-white);
+    backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
 }
 
+.dark .glass {
+    background: rgba(30, 35, 41, 0.7);
+    border: 1px solid rgba(71, 77, 87, 0.3);
+}
+
+.crypto-card {
+    background: #1E2329;
+    border: 1px solid rgba(71, 77, 87, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.crypto-card:hover {
+    border-color: #4C82FB;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.5);
+}
+
+.nav-link {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -18px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: currentColor;
+    border-radius: 4px;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
 .animate-in {
-    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
-.nav-link.active {
-    @apply text-slate-900 dark:text-white bg-white dark:bg-[#2B3139] shadow-sm;
-}
+.stat-up { color: #0ECB81; }
+.stat-down { color: #F6465D; }
 
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-::-webkit-scrollbar-track {
-    @apply bg-transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    @apply bg-slate-200 dark:bg-slate-800 rounded-full hover:bg-slate-300 dark:hover:bg-slate-700;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-
-.no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.glass-hover:hover {
-    @apply border-slate-300 dark:border-slate-600 transition-all;
-    transform: translateY(-2px);
+input::placeholder {
+    color: #474D57;
 }

@@ -1,43 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark transition-colors duration-300">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptoSpectra | Dashboard</title>
+    <title>CryptoSpectra | Premium Dashboard</title>
     <link rel="icon" type="image/png" href="images/favicon.png">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <script src="tailwind-config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="bg-white dark:bg-[#0B0E11] text-[#1E2329] dark:text-[#EAECEF] min-h-screen transition-colors duration-500 font-sans selection:bg-primary/30">
 
     <nav class="sticky top-0 z-50 glass border-b border-slate-200 dark:border-slate-800 px-6 py-4">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3 group cursor-pointer transition-all duration-300">
-                <div class="w-14 h-14 rounded-2xl shadow-sm border border-slate-300 dark:border-slate-700 p-[2px] bg-gradient-to-br from-white to-slate-100 dark:from-[#1E2329] dark:to-[#0B0E11] relative">
-                    <img src="images/logo.png" alt="Logo" class="w-full h-full object-cover rounded-[14px]">
+                <div class="w-14 h-14 rounded-2xl shadow-sm dark:shadow-[0_0_20px_rgba(255,255,255,0.05)] shrink-0 border border-slate-300 dark:border-slate-700 p-[2px] bg-gradient-to-br from-white to-slate-100 dark:from-[#1E2329] dark:to-[#0B0E11] group-hover:scale-105 dark:group-hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] group-hover:shadow-md group-hover:border-slate-400 dark:group-hover:border-slate-500 transition-all duration-300 relative">
+                    <div class="absolute inset-0 bg-slate-200/50 dark:bg-white/5 rounded-2xl blur-md group-hover:bg-white/50 dark:group-hover:bg-white/10 transition-colors duration-300 -z-10"></div>
+                    <img src="images/logo.png" alt="Logo" class="w-full h-full object-cover rounded-[14px] drop-shadow-sm">
                 </div>
-                <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white font-orbitron">CryptoSpectra</h1>
+                <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white font-orbitron group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors duration-300">CryptoSpectra</h1>
             </div>
 
-            <div class="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-[#1E2329] p-1.5 rounded-2xl border border-slate-200/50 dark:border-dark-border/50">
-                <a href="#/" id="nav-dashboard" class="px-5 py-2.5 rounded-xl text-sm font-bold transition-all hover:bg-white dark:hover:bg-[#2B3139] active">Dashboard</a>
-                <a href="#/compare" id="nav-compare" class="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-500 transition-all hover:bg-white dark:hover:bg-[#2B3139]">Compare</a>
-                <a href="#/favorites" id="nav-favorites" class="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-500 transition-all hover:bg-white dark:hover:bg-[#2B3139]">Favorites</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#/" class="text-sm font-bold nav-link active transition-colors flex items-center gap-2" id="nav-dashboard">Dashboard</a>
+                <a href="#/compare" class="text-sm font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-2 nav-link" id="nav-compare">Compare</a>
+                <a href="#/favorites" class="text-sm font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-2 nav-link" id="nav-favorites">Favorites</a>
             </div>
 
             <div class="flex items-center gap-4">
-                <button id="theme-toggle" class="p-3 rounded-2xl bg-slate-100 dark:bg-[#1E2329] text-slate-500 hover:scale-110 transition-all border border-slate-200/50 dark:border-dark-border/50 shadow-sm">
+                <button id="theme-toggle" class="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
                     <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
                     <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
                 </button>
+                <div class="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
+                <a href="https://github.com/harshhh-08" target="_blank" class="flex flex-col items-end group">
+                    <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">Powered by</span>
+                    <span class="text-xs font-black text-[#1E2329] dark:text-[#EAECEF] group-hover:text-slate-500 dark:group-hover:text-slate-300 transition-colors">Harsh Sharma</span>
+                    <div class="flex items-center gap-1 mt-1">
+                        <div class="w-3 h-3 fill-slate-400 group-hover:fill-slate-900 dark:group-hover:fill-white transition-colors">
+                            <svg viewBox="0 -0.5 25 25" xmlns="http://www.w3.org/2000/svg"><path d="m12.301 0h.093c2.242 0 4.34.613 6.137 1.68l-.055-.031c1.871 1.094 3.386 2.609 4.449 4.422l.031.058c1.04 1.769 1.654 3.896 1.654 6.166 0 5.406-3.483 10-8.327 11.658l-.087.026c-.063.02-.135.031-.209.031-.162 0-.312-.054-.433-.144l.002.001c-.128-.115-.208-.281-.208-.466 0-.005 0-.01 0-.014v.001q0-.048.008-1.226t.008-2.154c.007-.075.011-.161.011-.249 0-.792-.323-1.508-.844-2.025.618-.061 1.176-.163 1.718-.305l-.076.017c.573-.16 1.073-.373 1.537-.642l-.031.017c.508-.28.938-.636 1.292-1.058l.006-.007c.372-.476.663-1.036.84-1.645l.009-.035c.209-.683.329-1.468.329-2.281 0-.045 0-.091-.001-.136v.007c0-.022.001-.047.001-.072 0-1.248-.482-2.383-1.269-3.23l.003.003c.168-.44.265-.948.265-1.479 0-.649-.145-1.263-.404-1.814l.011.026c-.115-.022-.246-.035-.381-.035-.334 0-.649.078-.929.216l.012-.005c-.568.21-1.054.448-1.512.726l.038-.022-.609.384c-.922-.264-1.981-.416-3.075-.416s-2.153.152-3.157.436l.081-.02q-.256-.176-.681-.433c-.373-.214-.814-.421-1.272-.595l-.066-.022c-.293-.154-.64-.244-1.009-.244-.124 0-.246.01-.364.03l.013-.002c-.248.524-.393 1.139-.393 1.788 0 .531.097 1.04.275 1.509l-.01-.029c-.785.844-1.266 1.979-1.266 3.227 0 .025 0 .051.001.076v-.004c-.001.039-.001.084-.001.13 0 .809.12 1.591.344 2.327l-.015-.057c.189.643.476 1.202.85 1.693l-.009-.013c.354.435.782.793 1.267 1.062l.022.011c.432.252.933.465 1.46.614l.046.011c.466.125 1.024.227 1.595.284l.046.004c-.431.428-.718 1-.784 1.638l-.001.012c-.207.101-.448.183-.699.236l-.021.004c-.256.051-.549.08-.85.08-.022 0-.044 0-.066 0h.003c-.394-.008-.756-.136-1.055-.348l.006.004c-.371-.259-.671-.595-.881-.986l-.007-.015c-.198-.336-.459-.614-.768-.827l-.009-.006c-.225-.169-.49-.301-.776-.38l-.016-.004-.32-.048c-.023-.002-.05-.003-.077-.003-.14 0-.273.028-.394.077l.007-.003q-.128.072-.08.184c.039.086.087.16.145.225l-.001-.001c.061.072.13.135.205.19l.003.002.112.08c.283.148.516.354.693.603l.004.006c.191.237.359.505.494.792l.01.024.16.368c.135.402.38.738.7.981l.005.004c.3.234.662.402 1.057.478l.016.002c.33.064.714.104 1.106.112h.007c.045.002.097.002.15.002.261 0 .517-.021.767-.062l-.027.004.368-.064q0 .609.008 1.418t.008.873v.014c0 .185-.08.351-.208.466h-.001c-.119.089-.268.143-.431.143-.075 0-.147-.011-.214-.032l.005.001c-4.929-1.689-8.409-6.283-8.409-11.69 0-2.268.612-4.393 1.681-6.219l-.032.058c1.094-1.871 2.609-3.386 4.422-4.449l.058-.031c1.739-1.034 3.835-1.645 6.073-1.645h.098-.005zm-7.64 17.666q.048-.112-.112-.192-.16-.048-.208.032-.048.112.112.192.144.096.208-.032zm.497.545q.112-.08-.032-.256-.16-.144-.256-.048-.112.08.032.256.159.157.256.047zm.48.72q.144-.112 0-.304-.128-.208-.272-.096-.144.08 0 .288t.272.112zm.672.673q.128-.128-.064-.304-.192-.192-.32-.048-.144.128.064.304.192.192.32.044zm.913.4q.048-.176-.208-.256-.24-.064-.304.112t.208.24q.24.097.304-.096zm1.009.08q0-.208-.272-.176-.256 0-.256.176 0 .208.272.176.256.001.256-.175zm.929-.16q-.032-.176-.288-.144-.256.048-.224.24t.288.128.225-.224z"></path></svg>
+                        </div>
+                        <span class="text-[10px] font-bold text-slate-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">harshhh-08</span>
+                    </div>
+                </a>
             </div>
         </div>
     </nav>
 
     <main id="view-container" class="max-w-7xl mx-auto px-6 py-10">
+
         <div id="view-dashboard" class="animate-in space-y-10">
             <header>
                 <h2 class="text-4xl font-extrabold text-slate-900 dark:text-white mb-2 font-orbitron">Market Trends</h2>
@@ -63,40 +80,42 @@
                 </div>
             </div>
 
-            <div class="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between mb-10">
-                <div class="w-full lg:max-w-md relative group">
-                    <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-primary transition-colors"></i>
-                    <input type="text" id="coin-search" placeholder="Search markets..." class="w-full pl-14 pr-6 py-4 bg-white dark:bg-[#1E2329] border border-slate-200 dark:border-dark-border rounded-[20px] focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all font-bold">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="relative w-full md:w-96 group">
+                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-slate-900 dark:group-focus-within:text-white transition-colors"></i>
+                    <input type="text" id="coin-search" placeholder="Search markets..." 
+                        class="w-full bg-white dark:bg-[#1E2329] border border-slate-200 dark:border-dark-border rounded-2xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-slate-600 transition-all">
                 </div>
-                <div class="flex gap-3 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0 no-scrollbar">
+                <div class="flex gap-2 w-full md:w-auto overflow-x-auto no-scrollbar">
                     <button id="filter-all" class="flex-1 whitespace-nowrap bg-slate-900 dark:bg-white text-white dark:text-slate-900 p-3 px-6 rounded-2xl flex items-center justify-center gap-2 text-sm font-bold shadow-lg transition-all">
                         <i data-lucide="layers" class="w-4 h-4"></i> All Markets
                     </button>
-                    <button id="filter-gainers" class="flex-1 whitespace-nowrap bg-white dark:bg-[#1E2329] text-slate-500 border border-slate-200 dark:border-dark-border p-3 px-6 rounded-2xl flex items-center justify-center gap-2 text-sm font-bold transition-all">
+                    <button id="filter-gainers" class="flex-1 whitespace-nowrap bg-white dark:bg-[#1E2329] text-slate-500 border border-slate-200 dark:border-dark-border p-3 px-6 rounded-2xl flex items-center justify-center gap-2 text-sm font-bold hover:bg-slate-50 dark:hover:bg-dark-hover transition-all">
                         <i data-lucide="trending-up" class="w-4 h-4"></i> Top Gainers
                     </button>
-                    <button id="filter-losers" class="flex-1 whitespace-nowrap bg-white dark:bg-[#1E2329] text-slate-500 border border-slate-200 dark:border-dark-border p-3 px-6 rounded-2xl flex items-center justify-center gap-2 text-sm font-bold transition-all">
+                    <button id="filter-losers" class="flex-1 whitespace-nowrap bg-white dark:bg-[#1E2329] text-slate-500 border border-slate-200 dark:border-dark-border p-3 px-6 rounded-2xl flex items-center justify-center gap-2 text-sm font-bold hover:bg-slate-50 dark:hover:bg-dark-hover transition-all">
                         <i data-lucide="trending-down" class="w-4 h-4"></i> Top Losers
                     </button>
                 </div>
             </div>
 
-            <div class="glass rounded-[40px] border border-slate-200/50 dark:border-dark-border/50 overflow-hidden mb-8 shadow-2xl">
-                <div class="overflow-x-auto no-scrollbar">
-                    <table class="w-full border-collapse min-w-[800px]">
+            <div class="glass rounded-[32px] overflow-hidden shadow-2xl">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-slate-100/50 dark:bg-[#181A20]/80">
                                 <th class="p-6 text-xs font-black uppercase tracking-widest text-slate-500">#</th>
                                 <th class="p-6 text-xs font-black uppercase tracking-widest text-slate-500">Coin</th>
                                 <th class="p-6 text-xs font-black uppercase tracking-widest text-slate-500">Price</th>
                                 <th class="p-6 text-xs font-black uppercase tracking-widest text-slate-500 text-right">24h Change</th>
+                                <th class="p-6 text-xs font-black uppercase tracking-widest text-slate-500 text-right">Market Cap</th>
                                 <th class="p-6 text-xs font-black uppercase tracking-widest text-slate-500 text-center">Last 7 Days</th>
                                 <th class="p-6 text-xs font-black uppercase tracking-widest text-slate-500 text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="coin-table-body" class="divide-y divide-slate-200 dark:divide-slate-800">
                             <tr class="animate-pulse">
-                                <td colspan="5" class="p-20 text-center text-slate-500 font-medium">Syncing market data...</td>
+                                <td colspan="7" class="p-20 text-center text-slate-500 font-medium">Syncing market data...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -117,8 +136,9 @@
                 <h2 class="text-4xl font-extrabold text-slate-900 dark:text-white mb-2 font-orbitron">Compare Assets</h2>
                 <p class="text-slate-500 dark:text-slate-400 font-medium">Detailed side-by-side performance analysis.</p>
             </header>
-            <div id="comparison-slots" class="grid grid-cols-1 lg:grid-cols-2 gap-10 min-h-[500px]">
-                <div class="glass rounded-[40px] border-2 border-dashed border-slate-300 dark:border-[#2B3139] flex items-center justify-center p-12 transition-all hover:border-slate-400 group relative overflow-hidden" id="compare-slot-0">
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 min-h-[500px]" id="comparison-slots">
+                <div class="glass rounded-[40px] border-2 border-dashed border-slate-300 dark:border-[#2B3139] flex items-center justify-center p-12 transition-all hover:border-slate-400 dark:hover:border-slate-500 group relative overflow-hidden" id="compare-slot-0">
                     <div class="text-center group-hover:scale-110 transition-transform">
                         <div class="bg-slate-200/50 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6">
                             <i data-lucide="plus" class="w-10 h-10 text-slate-500"></i>
@@ -127,7 +147,8 @@
                         <p class="text-slate-500 text-sm">Select a coin from the dashboard</p>
                     </div>
                 </div>
-                <div class="glass rounded-[40px] border-2 border-dashed border-slate-300 dark:border-[#2B3139] flex items-center justify-center p-12 transition-all hover:border-slate-400 group relative overflow-hidden" id="compare-slot-1">
+
+                <div class="glass rounded-[40px] border-2 border-dashed border-slate-300 dark:border-[#2B3139] flex items-center justify-center p-12 transition-all hover:border-slate-400 dark:hover:border-slate-500 group relative overflow-hidden" id="compare-slot-1">
                     <div class="text-center group-hover:scale-110 transition-transform">
                         <div class="bg-slate-200/50 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6">
                             <i data-lucide="plus" class="w-10 h-10 text-slate-500"></i>
@@ -147,15 +168,26 @@
                 </div>
                 <p class="text-slate-500 dark:text-slate-400 font-medium">Your personalized watchlist of premium assets.</p>
             </header>
-            <div id="favorites-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="favorites-grid">
+            </div>
         </div>
     </main>
 
     <footer class="max-w-7xl mx-auto px-6 py-12 border-t border-slate-200 dark:border-[#1E2329] mt-20 opacity-60">
         <div class="flex flex-col md:flex-row justify-between items-center gap-6">
             <p class="text-sm font-medium">&copy; 2026 CryptoSpectra Ecosystem. All rights reserved.</p>
+            <div class="flex gap-6 text-[#1E2329] dark:text-[#EAECEF]">
+                <i data-lucide="twitter" class="w-5 h-5 cursor-pointer hover:text-slate-500 dark:hover:text-white transition-colors"></i>
+                <i data-lucide="github" class="w-5 h-5 cursor-pointer hover:text-slate-500 dark:hover:text-white transition-colors"></i>
+                <i data-lucide="globe" class="w-5 h-5 cursor-pointer hover:text-slate-500 dark:hover:text-white transition-colors"></i>
+            </div>
         </div>
     </footer>
+
     <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
